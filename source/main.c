@@ -32,8 +32,8 @@ int main(void) {
     ADC_init();
     /* Insert your solution below */
     while (1) {
-      x = ADC; 
-      tmpB = (char)(x);
+      x = ADC;
+      tmpB = (char) x;
       PORTB = ~tmpB;
       tmpD = (char)(x >> 8); //get upper bits and set to tmpD
       PORTD = ~ tmpD;

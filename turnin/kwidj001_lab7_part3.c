@@ -16,7 +16,8 @@ unsigned char tmpA = 0x00;
 unsigned char tmpB = 0x00;
 unsigned char tmpD = 0x00;
 unsigned short x; //for ADC
-
+unsigned short MAX = 0; //unable to get value due to hardware issues
+unsigned short MIN = 0; //unable to get value due to hardware issues
 void ADC_init(){
   ADCSRA |= (1 << ADEN) | (1 << ADSC) | (1 << ADATE);
 }
@@ -27,13 +28,17 @@ int main(void) {
     DDRB = 0xFF; PORTB = 0x00; //PORTB as output (7:0) (led lights)
     DDRD = 0xFF; PORTD = 0x00; //PORTD as output (1:0) (led lights)
     ADC_init();
+
     /* Insert your solution below */
     while (1) {
       x = ADC;
-      tmpB = (char) x;
-      PORTB = ~tmpB;
-      tmpD = (char)(x >> 8); //get upper bits and set to tmpD
-      PORTD = ~ tmpD;
+      if(x >= MAX/2){
+        tmpB = 0x01;
+        PORTB = tmpB;
+      }else if(x < MAX/2){
+        tmpB = 0x00;
+        PORTB = tmpB;
+      }
     }
     return 1;
 }
